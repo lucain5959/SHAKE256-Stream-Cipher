@@ -26,7 +26,7 @@ class ShakeStreamCipher:
 
     decrypt = encrypt
 
-#Nonce and key can be manually input. Since this is a stream cipher it needs a unique nonce
+#Nonce and key can be manually inputed. Since this is a stream cipher it needs a unique nonce
 
 randomBitNumber = secrets.token_bytes(32)
 print ("Nonce is:", randomBitNumber)
