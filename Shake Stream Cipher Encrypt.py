@@ -1,4 +1,5 @@
 import secrets
+import base64
 from hashlib import shake_256
 
 class ShakeStreamCipher:
@@ -11,7 +12,8 @@ class ShakeStreamCipher:
     def keystream(self, n):
         """Return a number of bytes from the keystream"""
         newpos = self._pos + n
-        stream = self._h.digest(251658240)
+        length = self._pos+newpos
+        stream = self._h.digest(length)
         self._pos = newpos
         return stream
 
@@ -26,13 +28,13 @@ class ShakeStreamCipher:
 
     decrypt = encrypt
 
-#Nonce and key can be manually inputed. Since this is a stream cipher it needs a unique nonce
+#Nonce and key can be manually input. Since this is a stream cipher it needs a unique nonce
 
 randomBitNumber = secrets.token_bytes(32)
-print ("Nonce is:", randomBitNumber)
+print ("Nonce is:", base64.b64encode(randomBitNumber))
 
 randomkeynumber = secrets.token_bytes(32)
-print ("Key is:", randomkeynumber)
+print ("Key is:", base64.b64encode(randomkeynumber))
 
 nonce = randomBitNumber
 key = randomkeynumber
@@ -40,6 +42,6 @@ key = randomkeynumber
 data = randomBitNumber+randomkeynumber
 
 cipher = ShakeStreamCipher(key=key, nonce=nonce)
-plaintext = b"plaintext message"
+plaintext = b"plaintext"
 ciphertext = cipher.encrypt(plaintext)
-print ("Cipher text is",ciphertext)
+print ("Cipher text is",base64.b64encode(ciphertext))
